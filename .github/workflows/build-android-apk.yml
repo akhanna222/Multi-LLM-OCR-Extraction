@@ -1,0 +1,80 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, claude/* ]
+    paths:
+      - 'android-app/**'
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: android-app/package-lock.json
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Install dependencies
+      working-directory: android-app
+      run: npm install --legacy-peer-deps
+
+    - name: Make gradlew executable
+      working-directory: android-app/android
+      run: chmod +x gradlew
+
+    - name: Build APK
+      working-directory: android-app/android
+      run: ./gradlew assembleRelease
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: voice-camera-guide-apk
+        path: android-app/android/app/build/outputs/apk/release/app-release.apk
+        retention-days: 30
+
+    - name: Create Release (on tag)
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: android-app/android/app/build/outputs/apk/release/app-release.apk
+        name: Voice Camera Guide ${{ github.ref_name }}
+        body: |
+          ## Voice Camera Guide App
+
+          **Download the APK below and install on your Android device!**
+
+          ### Installation:
+          1. Download `app-release.apk`
+          2. Transfer to your Android phone
+          3. Open and install (enable "Install from Unknown Sources" if needed)
+          4. Grant camera and microphone permissions
+          5. Say "Guide me" to start!
+
+          ### Features:
+          - ✨ Voice-activated guidance
+          - 📸 Real-time camera analysis
+          - 🤖 AI-powered assistance
+          - 🔊 Audio feedback
+          - ⚠️ Hazard warnings
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
