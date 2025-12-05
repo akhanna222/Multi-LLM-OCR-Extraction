@@ -1,0 +1,38 @@
+{
+  "name": "VoiceCameraGuide",
+  "version": "1.0.0",
+  "description": "Voice-controlled camera guide app with AI",
+  "main": "index.js",
+  "scripts": {
+    "android": "react-native run-android",
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint .",
+    "build-android": "cd android && ./gradlew assembleRelease"
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-native": "0.73.2",
+    "react-native-vision-camera": "^3.6.17",
+    "@react-native-voice/voice": "^3.2.4",
+    "react-native-tts": "^4.1.0",
+    "axios": "^1.6.5",
+    "@tensorflow/tfjs": "^4.15.0",
+    "@tensorflow/tfjs-react-native": "^0.8.0",
+    "react-native-fs": "^2.20.0",
+    "react-native-permissions": "^4.0.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.7",
+    "@babel/preset-env": "^7.23.7",
+    "@babel/runtime": "^7.23.7",
+    "@react-native/babel-preset": "^0.73.19",
+    "@react-native/eslint-config": "^0.73.2",
+    "@react-native/metro-config": "^0.73.3",
+    "@react-native/typescript-config": "^0.73.1",
+    "metro-react-native-babel-preset": "^0.77.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

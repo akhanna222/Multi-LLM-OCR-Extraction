@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment
+.env
+.env.local
+
+# Android
+android/.gradle
+android/app/build/
+android/build/
+android/.idea
+android/local.properties
+*.iml
+*.hprof
+.cxx/
+*.apk
+*.ap_
+*.aab
+
+# iOS
+ios/Pods/
+ios/build/
+*.xcworkspace/
+*.pbxuser
+*.perspectivev3
+
+# Metro
+.metro-health-check*
+
+# Debug
+.DS_Store
+Thumbs.db
+
+# Test
+coverage/
+.jest/
+
+# Misc
+*.log
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
